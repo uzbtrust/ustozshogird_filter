@@ -45,5 +45,10 @@ POST_TYPES = {
         "keyword": "ustoz kerak:",
         "label": "Ustoz kerak",
         "emoji": "🎓"
+    },
+    "student": {
+        "keyword": "shogird kerak:",
+        "label": "Shogird kerak",
+        "emoji": "📚"
     }
 }

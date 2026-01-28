@@ -30,7 +30,7 @@ def get_user_filters(user_id: int) -> Set[str]:
     
     if user_key not in data["users"]:
         # Yangi foydalanuvchi - hamma filter yoqiq
-        data["users"][user_key] = ["job", "worker", "partner", "mentor"]
+        data["users"][user_key] = ["job", "worker", "partner", "mentor", "student"]
         save_data(data)
     
     return set(data["users"][user_key])
@@ -42,7 +42,7 @@ def toggle_filter(user_id: int, filter_type: str) -> bool:
     user_key = str(user_id)
     
     if user_key not in data["users"]:
-        data["users"][user_key] = ["job", "worker", "partner", "mentor"]
+        data["users"][user_key] = ["job", "worker", "partner", "mentor", "student"]
     
     filters = set(data["users"][user_key])
     
