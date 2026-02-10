@@ -9,14 +9,12 @@ from config import BOT_TOKEN, POST_TYPES
 from database import get_user_filters, toggle_filter
 from keyboards import get_filters_keyboard
 
-# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
-# Bot
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 router = Router()
@@ -24,7 +22,6 @@ router = Router()
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
-    """Start komandasi"""
     user_id = message.from_user.id
     user_name = message.from_user.first_name
     
@@ -47,7 +44,6 @@ async def cmd_start(message: Message):
 
 @router.callback_query(F.data.startswith("toggle:"))
 async def toggle_callback(callback: CallbackQuery):
-    """Filter tugmasi bosilganda"""
     user_id = callback.from_user.id
     filter_type = callback.data.split(":")[1]
     
@@ -61,7 +57,6 @@ async def toggle_callback(callback: CallbackQuery):
 
 
 async def send_post_to_users(user_ids: list, post_type: str, text: str, chat_name: str):
-    """Postni foydalanuvchilarga yuborish (userbot chaqiradi)"""
     post_info = POST_TYPES[post_type]
     
     notification = (
@@ -82,7 +77,6 @@ async def send_post_to_users(user_ids: list, post_type: str, text: str, chat_nam
 
 
 async def run_bot():
-    """Botni ishga tushirish"""
     dp.include_router(router)
     logger.info("🤖 Bot ishga tushdi!")
     await dp.start_polling(bot)
