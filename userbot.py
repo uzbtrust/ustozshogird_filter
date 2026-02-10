@@ -8,21 +8,18 @@ from pyrogram.types import Message
 from config import API_ID, API_HASH, BOT_TOKEN, CHANNELS, POST_TYPES
 from database import get_users_with_filter
 
-# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
-# Userbot (kanallarni kuzatish uchun)
 userbot = Client(
     "channel_monitor",
     api_id=API_ID,
     api_hash=API_HASH
 )
 
-# Bot client (xabar yuborish uchun)
 from aiogram import Bot
 bot = Bot(token=BOT_TOKEN)
 
@@ -51,7 +48,6 @@ async def handle_channel_post(client: Client, message: Message):
     if not text:
         return
     
-    # Post turini aniqlash
     post_type = detect_post_type(text)
     
     if not post_type:
@@ -62,7 +58,6 @@ async def handle_channel_post(client: Client, message: Message):
     
     logger.info(f"📨 {post_info['label']} - @{chat_name}")
     
-    # Bu filter yoqilgan foydalanuvchilarni olish
     users = get_users_with_filter(post_type)
     
     if not users:
@@ -71,7 +66,6 @@ async def handle_channel_post(client: Client, message: Message):
     
     logger.info(f"👥 {len(users)} ta foydalanuvchiga yuboriladi")
     
-    # Bot orqali yuborish
     notification = (
         f"{post_info['emoji']} <b>Yangi post: {post_info['label']}</b>\n"
         f"📢 Kanal: @{chat_name}\n\n"
@@ -97,7 +91,6 @@ async def main():
     await userbot.start()
     logger.info("✅ Userbot tayyor! Kanallarni kuzatmoqda...")
     
-    # Cheksiz kutish
     await asyncio.Event().wait()
 
 
