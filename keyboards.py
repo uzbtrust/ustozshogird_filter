@@ -5,13 +5,11 @@ from config import POST_TYPES
 
 
 def get_filters_keyboard(active_filters: Set[str]) -> InlineKeyboardMarkup:
-    """Filter tugmalarini yaratish"""
     
     def status(filter_type: str) -> str:
         return "✅" if filter_type in active_filters else "❌"
     
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        # 1-qator: Ish joyi va Xodim
         [
             InlineKeyboardButton(
                 text=f"{POST_TYPES['job']['emoji']} {POST_TYPES['job']['label']} {status('job')}",
@@ -22,7 +20,6 @@ def get_filters_keyboard(active_filters: Set[str]) -> InlineKeyboardMarkup:
                 callback_data="toggle:worker"
             ),
         ],
-        # 2-qator: Sherik va Ustoz
         [
             InlineKeyboardButton(
                 text=f"{POST_TYPES['partner']['emoji']} {POST_TYPES['partner']['label']} {status('partner')}",
@@ -33,7 +30,6 @@ def get_filters_keyboard(active_filters: Set[str]) -> InlineKeyboardMarkup:
                 callback_data="toggle:mentor"
             ),
         ],
-        # 3-qator: Shogird
         [
             InlineKeyboardButton(
                 text=f"{POST_TYPES['student']['emoji']} {POST_TYPES['student']['label']} {status('student')}",
