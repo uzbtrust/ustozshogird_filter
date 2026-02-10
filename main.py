@@ -10,19 +10,14 @@ from config import API_ID, API_HASH, BOT_TOKEN, CHANNELS, POST_TYPES
 from database import get_user_filters, toggle_filter, get_users_with_filter
 from keyboards import get_filters_keyboard
 
-# Logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
-# Oxirgi ko'rilgan xabar ID larini saqlash
 last_message_ids = {}
 
-# ═══════════════════════════════════════════════════════════════
-#                         BOT (Aiogram)
-# ═══════════════════════════════════════════════════════════════
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 router = Router()
@@ -30,7 +25,6 @@ router = Router()
 
 @router.message(CommandStart())
 async def cmd_start(message: AioMessage):
-    """Start komandasi"""
     user_id = message.from_user.id
     user_name = message.from_user.first_name
     
@@ -65,9 +59,6 @@ async def toggle_callback(callback: CallbackQuery):
     await callback.message.edit_reply_markup(reply_markup=get_filters_keyboard(filters_data))
 
 
-# ═══════════════════════════════════════════════════════════════
-#                      USERBOT (Pyrogram)
-# ═══════════════════════════════════════════════════════════════
 userbot = Client(
     "channel_monitor",
     api_id=API_ID,
@@ -102,7 +93,6 @@ async def process_message(message, chat_username):
     post_info = POST_TYPES[post_type]
     logger.info(f"🏷️ Yangi post: {post_info['label']} - @{chat_username}")
     
-    # Foydalanuvchilarni olish
     users = get_users_with_filter(post_type)
     if not users:
         logger.info(f"⚠️ Hech kim {post_type} yoqmagan")
@@ -110,10 +100,8 @@ async def process_message(message, chat_username):
     
     logger.info(f"👥 {len(users)} ta userga yuboriladi")
     
-    # Post linkini yaratish
     post_link = f"https://t.me/{chat_username}/{message.id}"
     
-    # Chiroyli notification
     notification = (
         f"┏━━━━━━━━━━━━━━━━━━━━━━┓\n"
         f"   {post_info['emoji']} <b>{post_info['label'].upper()}</b>\n"
@@ -123,7 +111,6 @@ async def process_message(message, chat_username):
         f"📢 <b>Kanal:</b> @{chat_username}"
     )
     
-    # Inline tugma - postga o'tish
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="📎 Postga o'tish", url=post_link)]
     ])
@@ -143,7 +130,6 @@ async def process_message(message, chat_username):
 
 
 async def check_channels():
-    """Kanallarni tekshirish (polling)"""
     global last_message_ids
     
     while True:
@@ -173,9 +159,6 @@ async def check_channels():
             await asyncio.sleep(10)
 
 
-# ═══════════════════════════════════════════════════════════════
-#                           MAIN
-# ═══════════════════════════════════════════════════════════════
 async def main():
     """Hammani ishga tushirish"""
     
