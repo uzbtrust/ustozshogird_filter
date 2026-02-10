@@ -119,3 +119,4 @@ MIT License
 ## 👨‍💻 Muallif
 
 [@uzbtrust](https://github.com/uzbtrust)
+Made with ❤️ by uzbtrust
